@@ -1,62 +1,38 @@
-import React, { useState, useEffect } from 'react'
-import { TODOS } from '../mock-data.json'
+import React from 'react'
 import InputBar from '../components/InputBar'
 import TodoItemlist from '../components/TodoItemList'
 import Paper from '@material-ui/core/Paper'
-import { Container, Grid } from '@material-ui/core'
+import { Container} from '@material-ui/core'
+import { Provider } from 'react-redux'
+import generateStore from '../redux/store'
 
 const Home = () => {
-    const [items, setItems] = useState(TODOS)
-    const [value, setValue] = useState('')
-    const [searchResults, setSearchResults] = useState([])
+    // const [searchResults, setSearchResults] = useState([])
+    // const [arrayToRender, setArrayToRender] = useState(items)
+    // useEffect(() => {
+    //     const results = items.filter(item =>
+    //         value.length >= 3 && item.todoValue.toLowerCase().includes(value.toLowerCase())
+    //     )
 
-    const changeValue = (e) => {
-        setValue(e.target.value)
-    }
+    //     value != '' ? setSearchResults(results) : setSearchResults([])
 
-    useEffect(() => {
-        const results = items.filter(item => {
-            item.todoValue.toLowerCase().includes(value.toLowerCase())
-        })
+    //     results.length != 0 ? setArrayToRender(searchResults) : setArrayToRender(items)
+    // }, [value])
 
-        setSearchResults(results)
-        console.log(searchResults)
-    }, [value])
+    const store = generateStore()
 
-    // funcion para hacer modificaciones en un TODO
-    const updateItem = (id, keyChange, valueChange) => {
-        const todos = items.map(t => {
-            if (t['id'] === id) {
-                t[keyChange] = valueChange
-                return t
-            }
-            return t
-        })
-        setItems(todos)
-    }
-
-    const funcAdd = () => {
-        const newEl = {
-            "id": items.length,
-            "todoValue": value,
-            "status": "sin completar"
-        }
-        setItems([...items, newEl])
-        setValue('')
-    }
-
-    return (
+    return (  
+    <Provider store={store}>
         <div className='full'>
-
-            <Container maxWidth='md' style={{marginTop: 30}}>
+            <Container maxWidth='md' style={{ marginTop: 30 }}>
                 <Paper elevation={3}>
-                    <InputBar addTodoItem={funcAdd} value={value} handleChange={changeValue} />
-                    <TodoItemlist todoArr={items}
-                        updateItem={updateItem}
-                    />
+                    <InputBar />
+                    <TodoItemlist/>
                 </Paper>
             </Container>
         </div >
+    </Provider>
+
     )
 }
 

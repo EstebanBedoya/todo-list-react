@@ -54,13 +54,14 @@ const FilterTodo = ({ selectedValue, handleChange, countTodo }) => {
 }
 
 FilterTodo.propTypes = {
-    selectedValue: PropTypes.string.isRequired,
-    handleChange: PropTypes.func.isRequired,
-    countTodo: PropTypes.objectOf(PropTypes.shape({
-        sinCompletar: PropTypes.number.isRequired,
-        completos: PropTypes.number.isRequired,
-        eliminados: PropTypes.number.isRequired,
-    }),).isRequired,
+    // selectedValue: PropTypes.string.isRequired,
+    
+    // handleChange: PropTypes.func.isRequired,
+    // countTodo: PropTypes.objectOf(PropTypes.shape({
+    //     sinCompletar: PropTypes.number.isRequired,
+    //     completos: PropTypes.number.isRequired,
+    //     eliminados: PropTypes.number.isRequired,
+    // }),).isRequired,
 
 }
 

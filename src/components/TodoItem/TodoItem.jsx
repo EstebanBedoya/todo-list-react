@@ -1,30 +1,37 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import {
+    deleteTodoAction,
+    completeTodoAction,
+    updateTodoAction
+} from '../../redux/todoDucks'
 import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import { statusValues } from '../../mock-data.json';
 import TodoOptions from '../TodoOptions'
 import TextField from '@material-ui/core/TextField'
 
-const TodoItem = ({ id, todoValue, status, updateItem }) => {
+const TodoItem = ({ id, todoValue, status }) => {
     const [isEdit, setIsEdit] = useState(false)
     const [valueItem, setValueItem] = useState(todoValue)
+
+    const dispatch = useDispatch()
 
     const changeValueItem = (event) => {
         setValueItem(event.target.value)
     }
 
     const saveEdit = () => {
-        updateItem(id, 'todoValue', valueItem)
+        dispatch(updateTodoAction(id, valueItem))
         setIsEdit(false)
     }
 
     const deleteItem = () => {
-        updateItem(id, 'status', statusValues['state3'])
+        dispatch(deleteTodoAction(id))
     }
 
     const completeTodo = () => {
-        updateItem(id, 'status', statusValues['state2'])
+        dispatch(completeTodoAction(id))
     }
     return (
         <Grid container item
@@ -45,7 +52,6 @@ const TodoItem = ({ id, todoValue, status, updateItem }) => {
                             defaultValue={valueItem}
                             onChange={changeValueItem} />
                 }
-
             </Grid>
             <Grid item>
                 {
@@ -64,8 +70,9 @@ const TodoItem = ({ id, todoValue, status, updateItem }) => {
 }
 
 TodoItem.propTypes = {
+    id: PropTypes.number.isRequired,
     todoValue: PropTypes.string.isRequired,
-    updateItem: PropTypes.func.isRequired,
+    status: PropTypes.string.isRequired,
 }
 
 export default TodoItem
